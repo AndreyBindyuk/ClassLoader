@@ -15,6 +15,7 @@ public class CClassLoader extends ClassLoader {
                 InputStream is = CClassLoader.class.getClassLoader().getResourceAsStream("semaphore/SemaphoreTest.class");
                 byte[] buf = new byte[10000];
                 int len = is.read(buf);
+                is.close();
                 return defineClass(name, buf, 0, len);
             } catch (IOException e) {
                 throw new ClassNotFoundException("", e);
