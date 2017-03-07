@@ -1,5 +1,3 @@
-package semaphore;
-
 /**
  * Created by Andrey_Bindyuk on 2/28/2017.
  */
