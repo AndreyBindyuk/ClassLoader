@@ -1,5 +1,7 @@
 package classloader;
 
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
+
 import java.io.*;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -31,12 +33,18 @@ public class CClassLoader extends ClassLoader {
         if (result!=null) {
             return result;
         }
-        File f= findFile(name.replace('.','/'),".class");
-        if (f==null) {
-            return findSystemClass(name);
-        }
-
         try {
+            return findSystemClass(name);
+        }catch (ClassNotFoundException e){
+            result = findClassByFile(name);
+        }
+        return result;
+    }
+
+    protected Class<?> findClassByFile(String name) throws ClassNotFoundException {
+        Class result;
+        try {
+            File f= findFile(name.replace('.','/'),".class");
             byte[] classBytes= loadFileAsBytes(f);
             result= defineClass(name,classBytes,0,classBytes.length);
         } catch (IOException e) {
